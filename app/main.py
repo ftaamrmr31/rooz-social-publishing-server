@@ -1,16 +1,15 @@
 from fastapi import FastAPI
-from app.api.router import router
 from app.core.config import settings
+from app.api.router import router
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Backend API for Rooz Social Publishing Server",
-    version=settings.APP_VERSION,
+    version=settings.APP_VERSION
 )
 
 app.include_router(router)
 
-
-@app.get("/health", tags=["health"])
+@app.get("/health")
 async def health_check():
+    """Health check endpoint"""
     return {"status": "ok", "service": settings.APP_NAME}
