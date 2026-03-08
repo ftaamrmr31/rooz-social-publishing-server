@@ -123,6 +123,39 @@ Interactive API documentation is available at:
 - **Swagger UI**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
+## Database Setup
+
+This project uses **SQLAlchemy** as the ORM (Object Relational Mapper) and **SQLite** as the database for development.
+
+### ORM
+
+[SQLAlchemy](https://www.sqlalchemy.org/) maps Python classes to database tables, so you can work with database records as regular Python objects instead of writing raw SQL.
+
+### Database
+
+SQLite is a lightweight, file-based database that requires no separate server process. The database file (`test.db`) is created automatically in the project root when tables are first created. It is ideal for development and testing.
+
+### How to Create Tables (future step)
+
+Once models are defined, you can create the tables by running:
+
+```python
+from app.db.base import Base
+from app.db.session import engine
+import app.models  # ensure all models are registered
+
+Base.metadata.create_all(bind=engine)
+```
+
+### Location of Models and Schemas
+
+| Component | Path | Description |
+|-----------|------|-------------|
+| Declarative base | `app/db/base.py` | Base class that all ORM models inherit from |
+| Engine & session | `app/db/session.py` | Database connection and `get_db` dependency |
+| User model | `app/models/user.py` | SQLAlchemy ORM model for the `users` table |
+| User schemas | `app/schemas/user.py` | Pydantic schemas for input (`UserCreate`) and output (`UserRead`) |
+
 ## Next Steps
 
 This is a starter project with the essentials configured. Future additions could include:
