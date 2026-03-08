@@ -123,11 +123,32 @@ Interactive API documentation is available at:
 - **Swagger UI**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
+## Database Setup
+
+This project uses **SQLAlchemy** (an ORM) with **SQLite** for local development.
+
+### How it works
+
+| File | Purpose |
+|------|---------|
+| `app/db/base.py` | Defines `Base`, the parent class all models inherit from |
+| `app/db/session.py` | Creates the database engine and `SessionLocal` factory |
+| `app/models/user.py` | `User` model — maps to the `users` table in the database |
+| `app/schemas/user.py` | Pydantic schemas (`UserCreate`, `UserRead`) for request/response validation |
+
+SQLite stores everything in a single file (`test.db`) in the project root, so no
+extra database server is needed during development.
+
+### Adding more models
+
+1. Create a new file in `app/models/`, e.g. `app/models/post.py`.
+2. Define your model class inheriting from `Base` (see `user.py` for an example).
+3. Import the model in `app/models/__init__.py` so SQLAlchemy discovers the table.
+
 ## Next Steps
 
 This is a starter project with the essentials configured. Future additions could include:
 
-- Database integration (PostgreSQL, SQLAlchemy)
 - Authentication (JWT, OAuth2)
 - Caching (Redis)
 - Logging and monitoring
