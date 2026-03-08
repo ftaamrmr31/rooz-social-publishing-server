@@ -106,9 +106,18 @@ rooz-social-publishing-server/
 │   ├── api/
 │   │   ├── __init__.py
 │   │   └── router.py           # API routes
-│   └── core/
-│       ├── __init__.py
-│       └── config.py           # Configuration settings
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py           # Configuration settings
+│   ├── db/
+│   │   ├── __init__.py
+│   │   └── base.py             # Database base classes and configuration (placeholder)
+│   ├── models/
+│   │   └── __init__.py
+│   ├── schemas/
+│   │   └── __init__.py
+│   └── services/
+│       └── __init__.py
 ├── requirements.txt            # Python dependencies
 ├── .env.example               # Example environment variables
 ├── Dockerfile                 # Docker image definition
@@ -116,6 +125,19 @@ rooz-social-publishing-server/
 ├── .gitignore                # Git ignore rules
 └── README.md                 # This file
 ```
+
+## Project Architecture
+
+This project follows a layered architecture pattern to keep code organized and easy to extend.
+
+| Folder | Purpose |
+|---|---|
+| `app/db/` | Database configuration and base classes. Will contain the SQLAlchemy engine, session factory, and declarative base when a database is added. |
+| `app/models/` | Database models (ORM). Each file in this folder will define a SQLAlchemy model that maps to a database table. |
+| `app/schemas/` | Pydantic request/response schemas. Used to validate incoming data and shape outgoing responses, keeping the API contract explicit. |
+| `app/services/` | Business logic layer. Keeps database queries and application rules out of the route handlers, making the code easier to test and reuse. |
+| `app/api/` | API routes and endpoints. FastAPI routers live here; they call service functions and return schema-validated responses. |
+| `app/core/` | Application settings and configuration. Environment variables and global constants are loaded here via Pydantic `Settings`. |
 
 ## API Documentation
 
