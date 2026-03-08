@@ -10,6 +10,8 @@ app = FastAPI(
     version=settings.APP_VERSION,
 )
 
+Base.metadata.create_all(bind=engine)
+
 app.include_router(router)
 
 
