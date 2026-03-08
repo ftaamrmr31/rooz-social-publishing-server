@@ -12,8 +12,3 @@ async def root():
 async def version():
     """Get API version"""
     return {"version": settings.APP_VERSION}
-
-@router.get("/health")
-async def health():
-    """Health check endpoint"""
-    return {"status": "ok", "service": settings.APP_NAME}
