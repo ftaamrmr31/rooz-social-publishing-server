@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 from typing import Generator
 
-DATABASE_URL = "sqlite:///./app.db"
+DATABASE_URL = "sqlite:///./database.db"
 
 engine = create_engine(
     DATABASE_URL,
