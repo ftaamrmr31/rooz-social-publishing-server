@@ -4,7 +4,7 @@ from app.db.base import Base
 from app.db.session import engine
 from app.api.router import router
 from app.core.config import settings
-from app.models import user  # مهم جداً لاستيراد الموديل
+from app.models import User, PublishJob  # مهم جداً لاستيراد الموديل
 
 
 app = FastAPI(
