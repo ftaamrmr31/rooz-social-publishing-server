@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from app.api.users import users_router
+from app.api.publish import publish_router
 
 router = APIRouter(prefix="/api", tags=["api"])
 
@@ -15,3 +16,4 @@ async def version():
 
 
 router.include_router(users_router, prefix="/users", tags=["users"])
+router.include_router(publish_router, prefix="/publish", tags=["publish"])
