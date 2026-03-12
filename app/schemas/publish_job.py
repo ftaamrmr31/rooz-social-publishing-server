@@ -15,3 +15,8 @@ class PublishJobRead(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# Schema لإرسال رسالة مباشرة إلى Telegram
+class TelegramSendNowRequest(BaseModel):
+    content: str
