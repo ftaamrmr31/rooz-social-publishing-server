@@ -1,10 +1,15 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
 from app.db.session import get_db
 from app.models.publish_job import PublishJob
-from app.schemas.publish_job import PublishJobCreate, PublishJobRead
+from app.schemas.publish_job import (
+    PublishJobCreate,
+    PublishJobRead,
+    TelegramSendNowRequest,
+)
+from app.integrations.telegram_publisher import send_telegram_message
 
 publish_router = APIRouter()
 
@@ -25,3 +30,18 @@ def create_publish_job(job: PublishJobCreate, db: Session = Depends(get_db)):
 @publish_router.get("", response_model=List[PublishJobRead])
 def get_publish_jobs(db: Session = Depends(get_db)):
     return db.query(PublishJob).all()
+
+
+@publish_router.post("/telegram/send-now")
+def send_now_telegram(request: TelegramSendNowRequest):
+    try:
+        result = send_telegram_message(request.content)
+        return {
+            "success": True,
+            "platform": "telegram",
+            "result": result
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
