@@ -119,7 +119,7 @@ This ensures your data survives container restarts and new deploys.
 | Use `python:3.12-slim` base image (already in `Dockerfile`) | Cuts image size by ~60% vs full Python image |
 | Set `uvicorn` workers to `1` in the `CMD` | Single CPU — multiple workers add overhead, not speed |
 | Add `--timeout-keep-alive 5` to uvicorn | Frees idle connections faster |
-| Keep Coolify's **Resource Limits** → CPU at `0.8` and Memory at `512m` | Prevents the app from starving Coolify itself |
+| Keep Coolify's **Resource Limits** → CPU at `0.4` and Memory at `512m` | Leaves headroom for n8n, Coolify itself, and the OS |
 | Enable Coolify's **Auto-deploy on push** for the `main` branch | Zero-touch deploys without manual clicks |
 | Schedule SQLite backups with `cron` on the host (daily `cp /data/rooz/database.db /backups/`) | SQLite has no built-in replication |
 
