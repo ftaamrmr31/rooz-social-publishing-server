@@ -105,10 +105,33 @@ rooz-social-publishing-server/
 │   ├── main.py                 # FastAPI app initialization
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── router.py           # API routes
-│   └── core/
-│       ├── __init__.py
-│       └── config.py           # Configuration settings
+│   │   ├── router.py           # Main API router
+│   │   ├── users.py            # User management endpoints
+│   │   └── publish.py          # Publish job endpoints
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py           # Configuration settings
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── base.py             # SQLAlchemy Base class
+│   │   └── session.py          # Database session management
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── user.py             # User database model
+│   │   └── publish_job.py      # PublishJob database model
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   ├── user.py             # User Pydantic schemas
+│   │   └── publish_job.py      # PublishJob Pydantic schemas
+│   ├── integrations/
+│   │   ├── __init__.py
+│   │   └── telegram_publisher.py  # Telegram Bot API integration
+│   └── services/
+│       └── __init__.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py             # Shared test fixtures
+│   └── test_api.py             # API endpoint tests
 ├── requirements.txt            # Python dependencies
 ├── .env.example               # Example environment variables
 ├── Dockerfile                 # Docker image definition
@@ -125,15 +148,15 @@ Interactive API documentation is available at:
 
 ## Next Steps
 
-This is a starter project with the essentials configured. Future additions could include:
+Future additions could include:
 
-- Database integration (PostgreSQL, SQLAlchemy)
 - Authentication (JWT, OAuth2)
 - Caching (Redis)
 - Logging and monitoring
 - API versioning
 - Rate limiting
 - Background tasks (Celery)
+- Database migrations (Alembic)
 
 ## Contributing
 
