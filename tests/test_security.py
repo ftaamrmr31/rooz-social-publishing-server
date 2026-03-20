@@ -1,6 +1,3 @@
-from unittest.mock import patch
-
-
 def test_security_headers_present(client):
     """Security headers should be present on every response."""
     response = client.get("/health")
@@ -47,11 +44,7 @@ def test_valid_email_accepted(client):
     assert data["email"] == "valid@example.com"
 
 
-def test_docs_hidden_in_production(client):
-    """In production mode, docs endpoints should return 404."""
-    with patch("app.core.config.settings.ENVIRONMENT", "production"):
-        # The docs_url is set at app creation time,
-        # so we test the current dev behavior: docs available
-        response = client.get("/docs")
-        # In development, docs should be available
-        assert response.status_code == 200
+def test_docs_available_in_development(client):
+    """In development mode, docs endpoints should be accessible."""
+    response = client.get("/docs")
+    assert response.status_code == 200

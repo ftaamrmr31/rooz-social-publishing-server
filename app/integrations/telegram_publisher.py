@@ -26,7 +26,7 @@ def send_telegram_message(content: str) -> dict:
         raise RuntimeError(
             f"Telegram API returned status {exc.response.status_code}"
         ) from exc
-    except httpx.RequestError:
+    except httpx.RequestError as exc:
         raise RuntimeError(
             "Failed to connect to Telegram API"
-        )
+        ) from exc
