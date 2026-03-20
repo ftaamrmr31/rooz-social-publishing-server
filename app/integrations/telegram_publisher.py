@@ -1,6 +1,8 @@
 import httpx
 from app.core.config import settings
 
+TELEGRAM_API_BASE = "https://api.telegram.org"
+
 
 def send_telegram_message(content: str) -> dict:
     """Send a message to Telegram using the Bot API."""
@@ -9,7 +11,7 @@ def send_telegram_message(content: str) -> dict:
     if not settings.TELEGRAM_CHAT_ID:
         raise ValueError("TELEGRAM_CHAT_ID is not configured")
 
-    url = f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
+    url = f"{TELEGRAM_API_BASE}/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": settings.TELEGRAM_CHAT_ID,
         "text": content,
@@ -22,9 +24,9 @@ def send_telegram_message(content: str) -> dict:
             return response.json()
     except httpx.HTTPStatusError as exc:
         raise RuntimeError(
-            f"Telegram API returned {exc.response.status_code}: {exc.response.text}"
+            f"Telegram API returned status {exc.response.status_code}"
         ) from exc
-    except httpx.RequestError as exc:
+    except httpx.RequestError:
         raise RuntimeError(
-            f"Failed to connect to Telegram API: {exc}"
-        ) from exc
+            "Failed to connect to Telegram API"
+        )
