@@ -105,10 +105,35 @@ rooz-social-publishing-server/
 │   ├── main.py                 # FastAPI app initialization
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── router.py           # API routes
-│   └── core/
-│       ├── __init__.py
-│       └── config.py           # Configuration settings
+│   │   ├── router.py           # Main API router
+│   │   ├── users.py            # User management endpoints
+│   │   └── publish.py          # Publish job endpoints
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py           # Configuration settings
+│   │   └── security.py         # Security headers middleware
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── base.py             # SQLAlchemy Base class
+│   │   └── session.py          # Database session management
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── user.py             # User database model
+│   │   └── publish_job.py      # PublishJob database model
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   ├── user.py             # User Pydantic schemas
+│   │   └── publish_job.py      # PublishJob Pydantic schemas
+│   ├── integrations/
+│   │   ├── __init__.py
+│   │   └── telegram_publisher.py  # Telegram Bot API integration
+│   └── services/
+│       └── __init__.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py             # Shared test fixtures
+│   ├── test_api.py             # API endpoint tests
+│   └── test_security.py        # Security middleware tests
 ├── requirements.txt            # Python dependencies
 ├── .env.example               # Example environment variables
 ├── Dockerfile                 # Docker image definition
@@ -116,6 +141,17 @@ rooz-social-publishing-server/
 ├── .gitignore                # Git ignore rules
 └── README.md                 # This file
 ```
+
+## Security Features
+
+The application includes the following built-in security protections:
+
+- **Security Headers**: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, HSTS, Referrer-Policy, Permissions-Policy
+- **CORS Protection**: Configurable allowed origins via `CORS_ORIGINS` environment variable
+- **Trusted Host Validation**: Configurable allowed hosts via `ALLOWED_HOSTS` environment variable
+- **Rate Limiting**: Configurable request rate limits via `RATE_LIMIT` (default: 60/minute)
+- **Email Validation**: Strict email format validation on user creation
+- **Production Docs Hiding**: Swagger UI and ReDoc are automatically disabled when `ENVIRONMENT=production`
 
 ## API Documentation
 
@@ -125,15 +161,14 @@ Interactive API documentation is available at:
 
 ## Next Steps
 
-This is a starter project with the essentials configured. Future additions could include:
+Future additions could include:
 
-- Database integration (PostgreSQL, SQLAlchemy)
 - Authentication (JWT, OAuth2)
 - Caching (Redis)
 - Logging and monitoring
 - API versioning
-- Rate limiting
 - Background tasks (Celery)
+- Database migrations (Alembic)
 
 ## Contributing
 
