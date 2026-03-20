@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     TELEGRAM_BOT_TOKEN: str = ""
     TELEGRAM_CHAT_ID: str = ""
 
+    # Security Configuration
+    CORS_ORIGINS: str = ""
+    ALLOWED_HOSTS: str = ""
+    RATE_LIMIT: str = "60/minute"
+
     model_config = ConfigDict(
         env_file=".env",
         case_sensitive=True,

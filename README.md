@@ -110,7 +110,8 @@ rooz-social-publishing-server/
 │   │   └── publish.py          # Publish job endpoints
 │   ├── core/
 │   │   ├── __init__.py
-│   │   └── config.py           # Configuration settings
+│   │   ├── config.py           # Configuration settings
+│   │   └── security.py         # Security headers middleware
 │   ├── db/
 │   │   ├── __init__.py
 │   │   ├── base.py             # SQLAlchemy Base class
@@ -131,7 +132,8 @@ rooz-social-publishing-server/
 ├── tests/
 │   ├── __init__.py
 │   ├── conftest.py             # Shared test fixtures
-│   └── test_api.py             # API endpoint tests
+│   ├── test_api.py             # API endpoint tests
+│   └── test_security.py        # Security middleware tests
 ├── requirements.txt            # Python dependencies
 ├── .env.example               # Example environment variables
 ├── Dockerfile                 # Docker image definition
@@ -139,6 +141,17 @@ rooz-social-publishing-server/
 ├── .gitignore                # Git ignore rules
 └── README.md                 # This file
 ```
+
+## Security Features
+
+The application includes the following built-in security protections:
+
+- **Security Headers**: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, HSTS, Referrer-Policy, Permissions-Policy
+- **CORS Protection**: Configurable allowed origins via `CORS_ORIGINS` environment variable
+- **Trusted Host Validation**: Configurable allowed hosts via `ALLOWED_HOSTS` environment variable
+- **Rate Limiting**: Configurable request rate limits via `RATE_LIMIT` (default: 60/minute)
+- **Email Validation**: Strict email format validation on user creation
+- **Production Docs Hiding**: Swagger UI and ReDoc are automatically disabled when `ENVIRONMENT=production`
 
 ## API Documentation
 
@@ -154,7 +167,6 @@ Future additions could include:
 - Caching (Redis)
 - Logging and monitoring
 - API versioning
-- Rate limiting
 - Background tasks (Celery)
 - Database migrations (Alembic)
 
