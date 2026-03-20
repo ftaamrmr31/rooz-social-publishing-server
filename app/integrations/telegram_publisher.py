@@ -15,6 +15,16 @@ def send_telegram_message(content: str) -> dict:
         "text": content,
     }
 
-    response = httpx.post(url, json=payload)
-    response.raise_for_status()
-    return response.json()
+    try:
+        with httpx.Client() as client:
+            response = client.post(url, json=payload)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        raise RuntimeError(
+            f"Telegram API returned {exc.response.status_code}: {exc.response.text}"
+        ) from exc
+    except httpx.RequestError as exc:
+        raise RuntimeError(
+            f"Failed to connect to Telegram API: {exc}"
+        ) from exc
