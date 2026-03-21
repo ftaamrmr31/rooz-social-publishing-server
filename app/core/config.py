@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     # Environment
     ENVIRONMENT: str = "development"
     
+    # 🔥 أضف هذا الجزء (مهم)
+    TELEGRAM_BOT_TOKEN: str = ""
+    TELEGRAM_CHAT_ID: str = ""
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
