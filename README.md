@@ -117,7 +117,63 @@ rooz-social-publishing-server/
 └── README.md                 # This file
 ```
 
-## API Documentation
+## API Key Protection
+
+Protected endpoints require an `X-API-Key` header when `API_SECRET_KEY` is set in your `.env` file.
+
+| Mode | `API_SECRET_KEY` value | Behaviour |
+|------|------------------------|-----------|
+| Development | *(empty or whitespace-only)* | All requests are allowed — no key needed |
+| Production | `your-secret-key` | Requests without a valid key are rejected with **HTTP 401** |
+
+### Protected endpoints
+- `POST /api/publish`
+- `POST /api/publish/telegram/send-now`
+
+### Unprotected endpoints (always public)
+- `GET /api/publish`
+- `GET /health`
+- `GET /api/`
+- `GET /api/version`
+
+### Examples
+
+**Without API key — fails when `API_SECRET_KEY` is set:**
+```bash
+curl -k -X POST https://api.auto4store.cloud/api/publish \
+  -H "Content-Type: application/json" \
+  -d '{"platform":"telegram","content":"Test message"}'
+# → HTTP 401 {"detail":"Invalid or missing API key"}
+```
+
+**With API key — succeeds:**
+```bash
+curl -k -X POST https://api.auto4store.cloud/api/publish \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-secret-key" \
+  -d '{"platform":"telegram","content":"Test message"}'
+```
+
+**Send Telegram message now:**
+```bash
+curl -k -X POST https://api.auto4store.cloud/api/publish/telegram/send-now \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-secret-key" \
+  -d '{"content":"Hello from Rooz!"}'
+```
+
+### Setup
+
+1. Copy the example env file and set your key:
+   ```bash
+   cp .env.example .env
+   # Edit .env and set: API_SECRET_KEY=your-secret-key
+   ```
+2. Restart the server — the key takes effect immediately.
+
+---
+
+
 
 Interactive API documentation is available at:
 - **Swagger UI**: `http://localhost:8000/docs`

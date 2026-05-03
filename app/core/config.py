@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     # 🔥 أضف هذا الجزء (مهم)
     TELEGRAM_BOT_TOKEN: str = ""
     TELEGRAM_CHAT_ID: str = ""
+
+    # API Key Protection (leave empty to disable — development mode)
+    API_SECRET_KEY: str = ""
     
     class Config:
         env_file = ".env"
