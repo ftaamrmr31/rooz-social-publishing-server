@@ -10,11 +10,12 @@ from app.schemas.publish_job import (
     TelegramSendNowRequest,
 )
 from app.integrations.telegram_publisher import send_telegram_message
+from app.core.api_key import verify_api_key
 
 publish_router = APIRouter()
 
 
-@publish_router.post("", response_model=PublishJobRead)
+@publish_router.post("", response_model=PublishJobRead, dependencies=[Depends(verify_api_key)])
 def create_publish_job(job: PublishJobCreate, db: Session = Depends(get_db)):
     db_job = PublishJob(
         platform=job.platform,
@@ -32,7 +33,7 @@ def get_publish_jobs(db: Session = Depends(get_db)):
     return db.query(PublishJob).all()
 
 
-@publish_router.post("/telegram/send-now")
+@publish_router.post("/telegram/send-now", dependencies=[Depends(verify_api_key)])
 def send_now_telegram(request: TelegramSendNowRequest):
     try:
         result = send_telegram_message(request.content)
